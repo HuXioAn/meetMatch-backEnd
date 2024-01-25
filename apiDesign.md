@@ -8,6 +8,8 @@
 
 ## create time table 
 
+`POST /api/timeTable/`
+
 request:
 
 - meeting name
@@ -45,16 +47,18 @@ reply:
 
 ## visit a time table
 
+`GET /api/timeTable/{visitToken}`
+
 request:
 
-- table visit token
+- table visit token (in url)
 
-```json
+<!-- ```json
 {
     "tableVisitToken": ""
 }
 
-```
+``` -->
 
 reply:
 
@@ -101,14 +105,15 @@ reply:
 
 ## update a time table
 
+`POST /api/timeTable/update/{visitToken}`
+
 request:
 
-- table visit token
+- table visit token (in url)
 - selection
 
 ```json
 {
-    "tableVisitToken": "",
     "selection": [
         {
             "startTime": "2024.2.1-10:15",
@@ -139,9 +144,11 @@ reply:
 
 ## manage a time table
 
+`PUT /api/timeTable/manage/{manageToken}`
+
 request:
 
-- table manage token
+- table manage token (in url)
 - meeting name
 - date selection
 - time range
@@ -150,7 +157,6 @@ request:
 
 ```json
 {
-    "tableManageToken": "",
     "meetingName": "next group meeting",
     "dateSelection": ["2024.2.1", "2024.2.2", "2024.2.5"],
     "timeRange": [8, 17],
@@ -175,15 +181,17 @@ reply:
 
 ## get the results
 
+`GET /api/timeTable/result/{visitToken}`
+
 request:
 
-- table visit token
+- table visit token (in url)
 
-```json
+<!-- ```json
 {
     "tableVisitToken": ""
 }
-```
+``` -->
 
 reply:
 
@@ -237,15 +245,17 @@ reply:
 
 ## delete a time table
 
+`DELETE /api/timeTable/{manageToken}`
+
 request:
 
-- table manage token
+- table manage token (in url)
 
-```json
+<!-- ```json
 {
     "tableManageToken": ""
 }
-```
+``` -->
 
 reply:
 

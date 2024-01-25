@@ -59,5 +59,7 @@ public class resultTimeTableReply{
 
 
 
-
+public class stateReply{
+    public int state { get; set; }
+}
 

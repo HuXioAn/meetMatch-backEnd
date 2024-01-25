@@ -26,11 +26,11 @@ public class timeTableController : ControllerBase {
     }
 
     [HttpPost("update/{visitToken}")]
-    public int updateTimeTable(string visitToken, updateTimeTableRequest request){
-        int state = 0;
+    public stateReply updateTimeTable(string visitToken, updateTimeTableRequest request){
+        var reply = new stateReply();
 
 
-        return state;
+        return reply;
     }
 
     [HttpPut("manage/{manageToken}")]
@@ -49,12 +49,12 @@ public class timeTableController : ControllerBase {
     }
 
 
-    [HttpDelete("manageToken")]
-    public int deleteTimeTable(string manageToken){
-        int state = 0;
+    [HttpDelete("{manageToken}")]
+    public stateReply deleteTimeTable(string manageToken){
+        var reply = new stateReply();
 
 
-        return state;
+        return reply;
     }
 
 

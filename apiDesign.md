@@ -4,7 +4,7 @@
 > 
 > **reply**: elements given by the backend 
 >
-> Elements marked with \* are optional.
+> Elements marked with \* are optional, can be left blank.
 
 ## create time table 
 

@@ -22,7 +22,7 @@ request:
 
 {
     "meetingName": "next group meeting",
-    "dateSelection": ["2024.2.1", "2024.2.2", "2024.2.5"],
+    "dateSelection": ["2024-01-25", "2024-01-26", "2024-01-28"],
     "timeRange": [8, 17],
     "maxCollaborator": 10,
     "email": "example@kth.se"
@@ -72,19 +72,19 @@ reply:
 {
     "state": 0,
     "meetingName": "next group meeting",
-    "dateSelection": ["2024.2.1", "2024.2.2", "2024.2.5"],
+    "dateSelection": ["2024-01-25", "2024-01-26", "2024-01-28"],
     "timeRange": [8, 17],
     "existSelection": [
         { 
             "color": "green",
             "slots": [
                 {
-                    "startTime": "2024.2.1-10:15",
-                    "endTime": "2024.2.1-12:15"
+                    "startTime": "2024-01-25T18:51:41.406Z",
+                    "endTime": "2024-01-25T19:51:41.406Z"
                 },
                 {
-                    "startTime": "2024.2.1-14:15",
-                    "endTime": "2024.2.1-16:15"
+                    "startTime": "2024-01-25T20:51:41.406Z",
+                    "endTime": "2024-01-25T21:51:41.406Z"
                 },
                 {
                     "startTime": "",
@@ -116,12 +116,12 @@ request:
 {
     "selection": [
         {
-            "startTime": "2024.2.1-10:15",
-            "endTime": "2024.2.1-12:15"
+            "startTime": "2024-01-25T18:51:41.406Z",
+            "endTime": "2024-01-25T19:51:41.406Z"
         },
         {
-            "startTime": "2024.2.1-14:15",
-            "endTime": "2024.2.1-16:15"
+            "startTime": "2024-01-26T18:51:41.406Z",
+            "endTime": "2024-01-26T19:51:41.406Z"
         },
         {
             "startTime": "",
@@ -158,7 +158,7 @@ request:
 ```json
 {
     "meetingName": "next group meeting",
-    "dateSelection": ["2024.2.1", "2024.2.2", "2024.2.5"],
+    "dateSelection": ["2024-01-25", "2024-01-26", "2024-01-28"],
     "timeRange": [8, 17],
     "maxCollaborator": 10,
     "email": "example@kth.se"
@@ -207,12 +207,12 @@ reply:
             "color": "green",
             "slots": [
                 {
-                    "startTime": "2024.2.1-10:15",
-                    "endTime": "2024.2.1-12:15"
+                    "startTime": "2024-01-25T18:51:41.406Z",
+                    "endTime": "2024-01-25T19:51:41.406Z"
                 },
                 {
-                    "startTime": "2024.2.1-14:15",
-                    "endTime": "2024.2.1-16:15"
+                    "startTime": "2024-01-26T18:51:41.406Z",
+                    "endTime": "2024-01-26T19:51:41.406Z"
                 },
                 {
                     "startTime": "",
@@ -228,12 +228,12 @@ reply:
     ],
     "recommendedResults": [
         {
-            "startTime": "2024.2.1-10:15",
-            "endTime": "2024.2.1-12:15"
+            "startTime": "2024-01-25T18:51:41.406Z",
+            "endTime": "2024-01-25T19:51:41.406Z"
         },
         {
-            "startTime": "2024.2.1-14:15",
-            "endTime": "2024.2.1-16:15"
+            "startTime": "2024-01-26T18:51:41.406Z",
+            "endTime": "2024-01-26T19:51:41.406Z"
         },
         {
             "startTime": "",

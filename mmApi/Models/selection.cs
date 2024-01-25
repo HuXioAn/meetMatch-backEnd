@@ -6,10 +6,10 @@ public class Selection{
     public Slot[] slots { get; set; }
 }
 
-public struct Slot
+public class Slot
 {
-    public DateTime startTime;
-    public DateTime endTime;
+    public DateTime startTime { get; set; }
+    public DateTime endTime { get; set; }
     
 }
 

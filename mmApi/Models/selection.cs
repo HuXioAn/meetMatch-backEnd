@@ -1,13 +1,15 @@
 
-namespace mmApi.Model
+namespace mmApi.Model;
 
 public class Selection{
     public string color { get; set; }
-    public 
+    public Slot[] slots { get; set; }
 }
 
-public struct slot
+public struct Slot
 {
-    public Datetime
+    public DateTime startTime;
+    public DateTime endTime;
+    
 }
 

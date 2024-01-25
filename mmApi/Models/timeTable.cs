@@ -3,14 +3,16 @@ namespace mmApi.Model;
 
 public class timeTable{
     public string meetingName { get; set; }
-    public Datetime[] dateSelection { get; set; }
+    public DateTime[] dateSelection { get; set; }
     public int[] timeRange { get; set; } 
     public int maxCollaborator { get; set; }
-    public string email { get; set; }
+    public string? email { get; set; }
 
     public tableState state { get; set; }
     public string tableVisitToken { get; set; }
     public string tableManageToken { get; set; }
+
+    public Selection[] existingSelection { get; set; }
 }
 
 

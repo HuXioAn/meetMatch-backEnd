@@ -19,6 +19,29 @@ public class timeTableDb : DbContext
                 ,
                 v => JsonSerializer.Deserialize<DateTime[]>(v, new JsonSerializerOptions()) ?? new DateTime[0]
                 );
+
+
+        modelBuilder
+            .Entity<timeTable>()
+            .Property(e => e.timeRange)
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions())
+                ,
+                v => JsonSerializer.Deserialize<int[]>(v, new JsonSerializerOptions()) ?? new int[0]
+            );
+
+        modelBuilder
+            .Entity<timeTable>()
+            .Property(e => e.existingSelection)
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions())
+                ,
+                v => JsonSerializer.Deserialize<Selection[]>(v, new JsonSerializerOptions()) ?? new Selection[0]
+            );
+
+
+
+
     }
 
 }

@@ -1,0 +1,4 @@
+dotnet tool install --global dotnet-ef --version 6.0
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update

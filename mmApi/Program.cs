@@ -1,10 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using mmApi.Model;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("timeTable") ?? "Data Source=timeTable.db";
+builder.Services.AddSqlite<timeTableDb>(connectionString);
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();

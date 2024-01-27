@@ -9,7 +9,6 @@ public class timeTable{
 
     // [NotMapped]
     public DateTime[] dateSelection { get; set; }
-    [NotMapped]
     public int[] timeRange { get; set; } 
     public int maxCollaborator { get; set; }
     public string? email { get; set; }
@@ -19,7 +18,6 @@ public class timeTable{
     public string tableVisitToken { get; set; }
     public string tableManageToken { get; set; }
 
-    [NotMapped]
     public Selection[] existingSelection { get; set; }
 }
 

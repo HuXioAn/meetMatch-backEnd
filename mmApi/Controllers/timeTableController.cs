@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using mmApi.Interface;
+using mmApi.Model;
+using SQLitePCL;
 
 namespace mmApi.Controllers;
 
@@ -7,12 +10,48 @@ namespace mmApi.Controllers;
 [Route("api/[controller]")]
 public class timeTableController : ControllerBase {
 
+    private readonly timeTableDb _context;
+
+    public timeTableController(timeTableDb context){
+        _context = context;
+    } 
+
     [HttpPost]
     public createTimeTableReply createTimeTable(createTimeTableRequest request){
 
         var reply = new createTimeTableReply();
 
         //create new table
+
+        var newTable = new timeTable{
+            meetingName = request.meetingName,
+            dateSelection = request.dateSelection,
+            timeRange = request.timeRange,
+            maxCollaborator = request.maxCollaborator,
+            email = request.email,
+            state = tableState.Initiated,
+            tableManageToken = "mtoken123445566777kjhxcvjkfgvjhxcgvjx",
+            tableVisitToken = "vToken1234sdifghjskdfgvjskdgvjkd",
+            existingSelection = new Selection[0]
+        };
+
+        
+
+        
+            _context.timeTables.Add(newTable);
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException e)
+            {
+                //update fail
+                
+                
+            }
+            
+        
+
 
         return reply;
     }

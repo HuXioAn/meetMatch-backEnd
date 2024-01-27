@@ -10,7 +10,7 @@ using mmApi.Model;
 namespace mmApi.Migrations
 {
     [DbContext(typeof(timeTableDb))]
-    [Migration("20240126212920_InitialCreate")]
+    [Migration("20240127195722_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

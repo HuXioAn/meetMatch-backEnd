@@ -2,4 +2,6 @@ bin/
 obj/
 .vscode/
 pic/
-*.db*
+*.db
+*.db-shm
+*.db-wal

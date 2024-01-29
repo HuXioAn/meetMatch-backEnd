@@ -65,6 +65,7 @@ public class timeTableController : ControllerBase {
         }
 
         //create new table
+        var guid = Guid.NewGuid().ToString("N");
 
         var newTable = new timeTable{
             meetingName = request.meetingName,
@@ -74,8 +75,9 @@ public class timeTableController : ControllerBase {
             email = request.email,
             state = tableState.Initiated,
             //TODO: token generate
-            tableManageToken = "mtoken123445566777kjhxcvjkfgvjhxcgvjx",
-            tableVisitToken = "vToken1234sdifghjskdfgvjskdgvjkd",
+            tableVisitToken = "v" + guid[0..16],
+            tableManageToken = "m" + guid,
+            
             existingSelection = new Selection[0]
         };
 

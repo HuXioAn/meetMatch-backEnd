@@ -14,6 +14,8 @@ public class timeTableController : ControllerBase {
     const int MAX_DATE_SELECTION = 10;
     const int MAX_COLLABORATOR = 30;
     const int MAX_EMAIL_LENGTH = 50;
+    const int MAX_COLOR_LENGTH = 15;
+    const int MAX_SLOT_NUM = 50;
 
     private readonly timeTableDb _context;
 
@@ -132,8 +134,64 @@ public class timeTableController : ControllerBase {
     [HttpPost("update/{visitToken}")]
     public stateReply updateTimeTable(string visitToken, updateTimeTableRequest request){
         var reply = new stateReply();
+        timeTable table;
+
+        try
+        {
+            table = _context.timeTables.Single(t => t.tableVisitToken == visitToken);
+            if(table.state > tableState.Filling) throw new Exception();
+        }
+        catch (System.Exception)
+        {
+            
+            reply.state = 1;
+            return reply;
+        }
 
 
+        //request validate
+        int validate = 0;
+        do{
+
+            if(string.IsNullOrWhiteSpace(request.selection.color) ||
+                request.selection.color.Length > MAX_COLOR_LENGTH){
+                    break;
+                }
+
+            if(request.selection.slots.Length < 1 || 
+                request.selection.slots.Length > MAX_SLOT_NUM){
+                    break;
+                }
+
+            // foreach (var slot in request.selection.slots)
+            // {
+            //     if()
+            // }
+
+            validate = 1;
+        }while(false);
+
+        if(validate == 0){
+            //didn't pass
+            reply.state = -1;
+            return reply;
+        }
+
+        //update the table
+        try
+        {
+            table.existingSelection.Append(request.selection);
+            if(table.existingSelection.Length == table.maxCollaborator)table.state = tableState.Full;
+            _context.SaveChanges();
+
+            reply.state = 0;
+
+        }
+        catch (System.Exception)
+        {
+            reply.state = 1;
+        }
+        
         return reply;
     }
 

@@ -10,6 +10,11 @@ namespace mmApi.Controllers;
 [Route("api/[controller]")]
 public class timeTableController : ControllerBase {
 
+    const int MAX_MEETINGNAME_LENGTH = 128;
+    const int MAX_DATE_SELECTION = 10;
+    const int MAX_COLLABORATOR = 30;
+    const int MAX_EMAIL_LENGTH = 50;
+
     private readonly timeTableDb _context;
 
     public timeTableController(timeTableDb context){
@@ -20,6 +25,44 @@ public class timeTableController : ControllerBase {
     public createTimeTableReply createTimeTable(createTimeTableRequest request){
 
         var reply = new createTimeTableReply();
+        //request validate
+        int validate = 0;
+        do{
+            if(request.meetingName.Length < 1 || 
+                request.meetingName.Length > MAX_MEETINGNAME_LENGTH ||
+                string.IsNullOrWhiteSpace(request.meetingName)){
+                break;
+            }
+
+            if(request.dateSelection.Length < 1 || 
+                request.dateSelection.Length > MAX_DATE_SELECTION){
+                    break;
+            }
+
+            if(request.timeRange.Length != 2 || 
+                request.timeRange[0] > request.timeRange[1] ||
+                request.timeRange[0] < 0 ||
+                request.timeRange[1] > 24 ){
+                    break;
+            }
+
+            if(request.maxCollaborator < 2 ||
+                request.maxCollaborator > MAX_COLLABORATOR){
+                    break;
+            }
+
+            if(request.email != null){
+                if(request.email.Length > MAX_EMAIL_LENGTH)break;
+            }
+
+            validate = 1;
+        }while(false);
+
+        if(validate == 0){
+            //didn't pass
+            reply.state = -1;
+            return reply;
+        }
 
         //create new table
 
@@ -30,25 +73,30 @@ public class timeTableController : ControllerBase {
             maxCollaborator = request.maxCollaborator,
             email = request.email,
             state = tableState.Initiated,
+            //TODO: token generate
             tableManageToken = "mtoken123445566777kjhxcvjkfgvjhxcgvjx",
             tableVisitToken = "vToken1234sdifghjskdfgvjskdgvjkd",
             existingSelection = new Selection[0]
         };
 
         
+        _context.timeTables.Add(newTable);
 
-        
-            _context.timeTables.Add(newTable);
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (DbUpdateException e)
-            {
-                //update fail
-                
-                
-            }
+        try
+        {
+            _context.SaveChanges();
+
+            //success
+            reply.state = 0;
+            reply.tableVisitToken = newTable.tableVisitToken;
+            reply.tableManageToken = newTable.tableManageToken;
+        }
+        catch (DbUpdateException e)
+        {
+            //update fail
+            reply.state = 1;
+            reply.tableVisitToken = "[!] Saving Fail.";
+        }
             
         
 
@@ -73,6 +121,7 @@ public class timeTableController : ControllerBase {
         {
             
             reply.state = 1;
+            reply.meetingName = "[!] Unable to find the time table.";
         }
 
         return reply;

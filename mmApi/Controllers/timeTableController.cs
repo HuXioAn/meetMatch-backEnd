@@ -60,6 +60,20 @@ public class timeTableController : ControllerBase {
     public visitTimeTableReply visitTimeTable(string visitToken){
         var reply = new visitTimeTableReply();
         //visit new table
+        try
+        {
+            var table = _context.timeTables.Single(t => t.tableVisitToken == visitToken);
+            reply.state = 0;
+            reply.meetingName = table.meetingName;
+            reply.dateSelection = table.dateSelection;
+            reply.timeRange = table.timeRange;
+            reply.existingSelection = table.existingSelection;
+        }
+        catch (System.Exception)
+        {
+            
+            reply.state = 1;
+        }
 
         return reply;
     }

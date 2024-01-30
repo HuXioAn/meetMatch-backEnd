@@ -186,6 +186,7 @@ public class timeTableController : ControllerBase {
             selection[table.existingSelection.Length] = request.selection;
             table.existingSelection = selection;
             if(table.existingSelection.Length == table.maxCollaborator)table.state = tableState.Full;
+            else table.state = tableState.Filling;
             _context.SaveChanges();
 
             reply.state = 0;
@@ -282,7 +283,7 @@ public class timeTableController : ControllerBase {
 
     [HttpGet("result/{visitToken}")]
     public resultTimeTableReply getResult(string visitToken){
-        var reply = new resultTimeTableReply();
+        var reply = new resultTimeTableReply(); reply.state = 1;
 
         return reply;
     }
@@ -291,7 +292,31 @@ public class timeTableController : ControllerBase {
     [HttpDelete("{manageToken}")]
     public stateReply deleteTimeTable(string manageToken){
         var reply = new stateReply();
+        timeTable table;
+        
+        //query the table
+        try
+        {
+            table = _context.timeTables.Single(t => t.tableManageToken == manageToken);
+            if(table.state >= tableState.Done) throw new Exception();
+        }
+        catch (System.Exception)
+        {
+            
+            reply.state = 1;
+            return reply;
+        }
 
+        try
+        {
+            table.state = tableState.Deleted;
+            _context.SaveChanges();
+            reply.state = 0;
+        }
+        catch (System.Exception)
+        {
+            reply.state = 1;
+        }
 
         return reply;
     }

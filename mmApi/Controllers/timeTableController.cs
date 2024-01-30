@@ -202,7 +202,80 @@ public class timeTableController : ControllerBase {
     [HttpPut("manage/{manageToken}")]
     public manageTimeTableReply manageTimeTable(string manageToken, manageTimeTableRequest request){
         var reply = new manageTimeTableReply();
+        timeTable table;
+        
+        //query the table
+        try
+        {
+            table = _context.timeTables.Single(t => t.tableManageToken == manageToken);
+            if(table.state >= tableState.Done) throw new Exception();
+        }
+        catch (System.Exception)
+        {
+            
+            reply.state = 1;
+            return reply;
+        }
 
+        //check the request
+        int validate = 0;
+        do{
+            if(request.meetingName.Length < 1 || 
+                request.meetingName.Length > MAX_MEETINGNAME_LENGTH ||
+                string.IsNullOrWhiteSpace(request.meetingName)){
+                break;
+            }
+
+            if(request.dateSelection.Length < 1 || 
+                request.dateSelection.Length > MAX_DATE_SELECTION){
+                    break;
+            }
+
+            if(request.timeRange.Length != 2 || 
+                request.timeRange[0] > request.timeRange[1] ||
+                request.timeRange[0] < 0 ||
+                request.timeRange[1] > 24 ){
+                    break;
+            }
+
+            if(request.maxCollaborator < 2 ||
+                request.maxCollaborator > MAX_COLLABORATOR){
+                    break;
+            }
+
+            if(request.email != null){
+                if(request.email.Length > MAX_EMAIL_LENGTH)break;
+            }
+
+            validate = 1;
+        }while(false);
+
+        if(validate == 0){
+            //didn't pass
+            reply.state = -1;
+            return reply;
+        }
+
+        try
+        {
+            table.meetingName = request.meetingName;
+            table.dateSelection = request.dateSelection;
+            table.timeRange = request.timeRange;
+            table.maxCollaborator = request.maxCollaborator;
+            table.email = request.email;
+            table.state = table.state;
+            table.existingSelection = table.existingSelection;
+
+            _context.SaveChanges();
+            reply.state = 0;
+            reply.tableManageToken = table.tableManageToken;
+            reply.tableVisitToken = table.tableVisitToken;
+        }
+        catch (System.Exception)
+        {
+            reply.state = 1;
+        }
+        
         return reply;
     }
 

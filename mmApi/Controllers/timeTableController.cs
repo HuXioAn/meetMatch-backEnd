@@ -180,7 +180,11 @@ public class timeTableController : ControllerBase {
         //update the table
         try
         {
-            table.existingSelection.Append(request.selection);
+            //table.existingSelection.Append(request.selection);
+            var selection = new Selection[table.existingSelection.Length + 1];
+            table.existingSelection.CopyTo(selection,0);
+            selection[table.existingSelection.Length] = request.selection;
+            table.existingSelection = selection;
             if(table.existingSelection.Length == table.maxCollaborator)table.state = tableState.Full;
             _context.SaveChanges();
 

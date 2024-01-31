@@ -4,6 +4,15 @@ using mmApi.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options => {
+    options.AddDefaultPolicy(
+        policy => {
+            policy.AllowAnyOrigin();
+            policy.AllowAnyMethod();
+        }
+    );
+});
+
 var connectionString = builder.Configuration.GetConnectionString("timeTable") ?? "Data Source=timeTable.db";
 builder.Services.AddSqlite<timeTableDb>(connectionString);
 // Add services to the container.
@@ -26,6 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 

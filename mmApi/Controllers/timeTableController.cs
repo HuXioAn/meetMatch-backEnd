@@ -116,6 +116,9 @@ public class timeTableController : ControllerBase {
         try
         {
             var table = await _context.timeTables.SingleAsync<timeTable>(t => t.tableVisitToken == visitToken);
+            if(table.state == tableState.Deleted){
+                throw new Exception();
+            }
             reply.state = 0;
             reply.meetingName = table.meetingName;
             reply.dateSelection = table.dateSelection;

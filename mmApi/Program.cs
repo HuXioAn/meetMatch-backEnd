@@ -15,7 +15,13 @@ builder.Services.AddCors(options => {
 });
 
 var connectionString = builder.Configuration.GetConnectionString("timeTable") ?? "Data Source=timeTable.db";
-builder.Services.AddSqlite<timeTableDb>(connectionString);
+// builder.Services.AddSqlite<timeTableDb>(connectionString);
+
+//dbcontext pool
+builder.Services.AddDbContextPool<timeTableDb>(
+    o => o.UseSqlite(connectionString)
+);
+
 // Add services to the container.
 
 builder.Services.AddControllers();

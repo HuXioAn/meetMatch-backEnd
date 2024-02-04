@@ -24,7 +24,7 @@ public class timeTableController : ControllerBase {
     } 
 
     [HttpPost]
-    public createTimeTableReply createTimeTable(createTimeTableRequest request){
+    public async Task<createTimeTableReply> createTimeTable(createTimeTableRequest request){
 
         var reply = new createTimeTableReply();
         //request validate
@@ -84,11 +84,12 @@ public class timeTableController : ControllerBase {
         };
 
         
-        _context.timeTables.Add(newTable);
+        
 
         try
-        {
-            _context.SaveChanges();
+        {   
+            await _context.timeTables.AddAsync(newTable);
+            await _context.SaveChangesAsync();
 
             //success
             reply.state = 0;
@@ -109,12 +110,12 @@ public class timeTableController : ControllerBase {
     }
 
     [HttpGet("{visitToken}")]
-    public visitTimeTableReply visitTimeTable(string visitToken){
+    public async Task<visitTimeTableReply> visitTimeTable(string visitToken){
         var reply = new visitTimeTableReply();
         //visit new table
         try
         {
-            var table = _context.timeTables.Single(t => t.tableVisitToken == visitToken);
+            var table = await _context.timeTables.SingleAsync<timeTable>(t => t.tableVisitToken == visitToken);
             reply.state = 0;
             reply.meetingName = table.meetingName;
             reply.dateSelection = table.dateSelection;
@@ -132,13 +133,13 @@ public class timeTableController : ControllerBase {
     }
 
     [HttpPost("update/{visitToken}")]
-    public stateReply updateTimeTable(string visitToken, updateTimeTableRequest request){
+    public async Task<stateReply> updateTimeTable(string visitToken, updateTimeTableRequest request){
         var reply = new stateReply();
         timeTable table;
 
         try
         {
-            table = _context.timeTables.Single(t => t.tableVisitToken == visitToken);
+            table = await _context.timeTables.SingleAsync<timeTable>(t => t.tableVisitToken == visitToken);
             if(table.state > tableState.Filling) throw new Exception();
         }
         catch (System.Exception)
@@ -187,7 +188,7 @@ public class timeTableController : ControllerBase {
             table.existingSelection = selection;
             if(table.existingSelection.Length == table.maxCollaborator)table.state = tableState.Full;
             else table.state = tableState.Filling;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             reply.state = 0;
 
@@ -201,14 +202,14 @@ public class timeTableController : ControllerBase {
     }
 
     [HttpPut("manage/{manageToken}")]
-    public manageTimeTableReply manageTimeTable(string manageToken, manageTimeTableRequest request){
+    public async Task<manageTimeTableReply> manageTimeTable(string manageToken, manageTimeTableRequest request){
         var reply = new manageTimeTableReply();
         timeTable table;
         
         //query the table
         try
         {
-            table = _context.timeTables.Single(t => t.tableManageToken == manageToken);
+            table = await _context.timeTables.SingleAsync<timeTable>(t => t.tableManageToken == manageToken);
             if(table.state >= tableState.Done) throw new Exception();
         }
         catch (System.Exception)
@@ -267,7 +268,7 @@ public class timeTableController : ControllerBase {
             table.state = table.state;
             table.existingSelection = table.existingSelection;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             reply.state = 0;
             reply.tableManageToken = table.tableManageToken;
             reply.tableVisitToken = table.tableVisitToken;
@@ -290,14 +291,14 @@ public class timeTableController : ControllerBase {
 
 
     [HttpDelete("{manageToken}")]
-    public stateReply deleteTimeTable(string manageToken){
+    public async Task<stateReply> deleteTimeTable(string manageToken){
         var reply = new stateReply();
         timeTable table;
         
         //query the table
         try
         {
-            table = _context.timeTables.Single(t => t.tableManageToken == manageToken);
+            table = await _context.timeTables.SingleAsync<timeTable>(t => t.tableManageToken == manageToken);
             if(table.state >= tableState.Done) throw new Exception();
         }
         catch (System.Exception)
@@ -310,7 +311,7 @@ public class timeTableController : ControllerBase {
         try
         {
             table.state = tableState.Deleted;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             reply.state = 0;
         }
         catch (System.Exception)

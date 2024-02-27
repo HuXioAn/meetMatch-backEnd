@@ -2,7 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mmApi.Interface;
 using mmApi.Model;
+using mmApi.Mail;
 using SQLitePCL;
+
+using System.Threading.Tasks;
 
 namespace mmApi.Controllers;
 
@@ -95,6 +98,22 @@ public class timeTableController : ControllerBase {
             reply.state = 0;
             reply.tableVisitToken = newTable.tableVisitToken;
             reply.tableManageToken = newTable.tableManageToken;
+
+            var t = Task.Run(() => {
+                try{
+                    if(!string.IsNullOrWhiteSpace(newTable.email)){
+                    var email = mail.composeMail(newTable.email, 
+                    "Visit Link: https://meetmatch.us/table/?vToken="+newTable.tableVisitToken + 
+                    "\nManage Link: https://meetmatch.us/manage/?mToken="+newTable.tableManageToken);
+                    if(email != null)
+                    mail.sendMail(email);
+                }
+                }catch(Exception e){
+                    
+                }
+            });
+            
+
         }
         catch (DbUpdateException e)
         {
@@ -275,6 +294,18 @@ public class timeTableController : ControllerBase {
             reply.state = 0;
             reply.tableManageToken = table.tableManageToken;
             reply.tableVisitToken = table.tableVisitToken;
+
+            // try{
+            //     if(!string.IsNullOrWhiteSpace(table.email)){
+            //     var email = mail.composeMail(table.email, 
+            //     "Visit Link: https://meetmatch.us/table/?vToken="+table.tableVisitToken + 
+            //     "\nManage Link: https://meetmatch.us/manage/?mToken="+table.tableManageToken);
+            //     if(email != null)
+            //     mail.sendMail(email);
+            // }
+            // }catch(Exception e){
+                
+            // }
         }
         catch (System.Exception)
         {

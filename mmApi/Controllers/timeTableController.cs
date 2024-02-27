@@ -103,7 +103,8 @@ public class timeTableController : ControllerBase {
                 try{
                     if(!string.IsNullOrWhiteSpace(newTable.email)){
                     var email = mail.composeMail(newTable.email, 
-                    "Visit Link: https://meetmatch.us/table/?vToken="+newTable.tableVisitToken + 
+                    "Meeting Name: " + newTable.meetingName +
+                    "\nVisit Link: https://meetmatch.us/table/?vToken="+newTable.tableVisitToken + 
                     "\nManage Link: https://meetmatch.us/manage/?mToken="+newTable.tableManageToken);
                     if(email != null)
                     mail.sendMail(email);
